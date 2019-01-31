@@ -1,0 +1,28 @@
+group 'com.books.queue'
+version '1.0-SNAPSHOT'
+
+apply plugin: 'java'
+apply plugin: 'maven'
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+    compile group: 'org.apache.activemq', name: 'activemq-core', version: '5.7.0'
+    compile group: 'org.apache.activemq', name: 'activemq-broker', version: '5.15.8'
+    compile group: 'org.apache.activemq', name: 'activemq-client', version: '5.15.8'
+    compile group: 'org.apache.activemq', name: 'activemq-pool', version: '5.15.8'
+    compile group: 'com.sun.jndi', name: 'fscontext', version: '1.2-beta-3'
+    compile group: 'javax', name: 'javaee-api', version: '8.0'
+    compile group: 'javax.jms', name: 'javax.jms-api', version: '2.0.1'
+}
+
+jar {
+    manifest {
+        attributes 'Main-Class': 'QueueApplication'
+    }
+}
