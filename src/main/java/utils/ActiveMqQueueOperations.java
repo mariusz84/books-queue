@@ -28,7 +28,6 @@ public class ActiveMqQueueOperations {
             session = MqConnector.getSession();
             if (isQueueEmpty() == false) {
                 TextMessage textMsg = (TextMessage) consumer.receive();
-                System.out.println(textMsg.getText());
                 log.info("Received: " + textMsg.getText());
             } else {
                 log.info("Message queue is empty");
