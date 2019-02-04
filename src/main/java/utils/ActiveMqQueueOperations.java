@@ -9,7 +9,8 @@ import java.util.concurrent.*;
 
 public class ActiveMqQueueOperations {
     private static final Logger log = LoggerFactory.getLogger(ActiveMqQueueOperations.class);
-    private static final int DELAY_TO_CHECK_QUEUE = 60;
+    private static final int INITIAL_DELAY = 60;
+    private static final int REPETITION_FREQUENCY = 180;
     protected static Connection connection;
     protected static Session session;
     protected static Queue queue;
@@ -17,7 +18,7 @@ public class ActiveMqQueueOperations {
     public static void receiveMessageFromQueueIfQueueIsNotEmpty() {
         ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(1);
         Runnable task = () -> receiveMessageFromQueue();
-        scheduledExecutorService.schedule(task, DELAY_TO_CHECK_QUEUE, TimeUnit.SECONDS);
+        scheduledExecutorService.scheduleAtFixedRate(task, INITIAL_DELAY, REPETITION_FREQUENCY, TimeUnit.SECONDS);
     }
 
     private static void receiveMessageFromQueue() {
@@ -32,7 +33,6 @@ public class ActiveMqQueueOperations {
             } else {
                 log.info("Message queue is empty");
             }
-
             MqConnector.cleanUpQueue();
         } catch (Exception e) {
             log.info(e.getMessage());
