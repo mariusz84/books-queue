@@ -1,19 +1,19 @@
-package utils;
+package consumer;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import utils.MqConnector;
 
 import javax.jms.*;
 import java.util.Enumeration;
 import java.util.concurrent.*;
 
-public class ActiveMqQueueOperations {
-    private static final Logger log = LoggerFactory.getLogger(ActiveMqQueueOperations.class);
+public class ActiveMqPullConsumer {
+    private static final Logger log = LoggerFactory.getLogger(ActiveMqPullConsumer.class);
     private static final int INITIAL_DELAY = 60;
     private static final int REPETITION_FREQUENCY = 180;
-    protected static Connection connection;
-    protected static Session session;
-    protected static Queue queue;
+    private static Session session;
+    private static Queue queue;
 
     public static void receiveMessageFromQueueIfQueueIsNotEmpty() {
         ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(1);
@@ -22,12 +22,10 @@ public class ActiveMqQueueOperations {
     }
 
     private static void receiveMessageFromQueue() {
+        prepareQueue();
         try {
-            MqConnector.setupQueue();
-
-            MessageConsumer consumer = MqConnector.getMessageConsumer();
-            session = MqConnector.getSession();
             if (isQueueEmpty() == false) {
+                MessageConsumer consumer = MqConnector.getMessageConsumer();
                 TextMessage textMsg = (TextMessage) consumer.receive();
                 log.info("Received: " + textMsg.getText());
             } else {
@@ -48,5 +46,10 @@ public class ActiveMqQueueOperations {
             log.info(e.getMessage());
         }
         return !enumeration.hasMoreElements();
+    }
+
+    private static void prepareQueue() {
+        session = MqConnector.getSession();
+        queue = MqConnector.setupQueue();
     }
 }
