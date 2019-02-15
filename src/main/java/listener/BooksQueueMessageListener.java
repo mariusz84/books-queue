@@ -21,7 +21,6 @@ public class BooksQueueMessageListener implements MessageListener {
         } catch (JMSException | InterruptedException e) {
             msg = String.format("Cannot receive message");
         }
-        System.out.println(msg);
-        log.info("Message was received");
+        log.info(msg);
     }
 }
