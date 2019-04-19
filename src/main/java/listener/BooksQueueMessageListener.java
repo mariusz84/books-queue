@@ -9,7 +9,7 @@ import javax.jms.MessageListener;
 import javax.jms.TextMessage;
 
 public class BooksQueueMessageListener implements MessageListener {
-    private static final Logger log = LoggerFactory.getLogger(BooksQueueMessageListener.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(BooksQueueMessageListener.class);
 
     @Override
     public void onMessage(Message message) {
@@ -21,6 +21,6 @@ public class BooksQueueMessageListener implements MessageListener {
         } catch (JMSException | InterruptedException e) {
             msg = String.format("Cannot receive message");
         }
-        log.info(msg);
+        LOGGER.info(msg);
     }
 }

@@ -16,6 +16,8 @@ dependencies {
     compile group: 'com.sun.jndi', name: 'fscontext', version: '1.2-beta-3'
     compile group: 'javax', name: 'javaee-api', version: '8.0'
     compile group: 'javax.jms', name: 'javax.jms-api', version: '2.0.1'
+    compile group: 'javassist', name: 'javassist', version: '3.12.1.GA'
+    compile group: 'io.earcam.wrapped', name: 'com.sun.tools.attach', version: '1.8.0_jdk8u162-b12'
 }
 
 jar {

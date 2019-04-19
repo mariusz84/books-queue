@@ -1,11 +1,12 @@
 package utils;
 
 public class QueueModeChecker {
-    private static final String PUSH = "push";
+    private static final String MODE = "mode";
 
-    public QueueModeChecker(){}
+    public QueueModeChecker() {
+    }
 
     public static boolean isPush() {
-        return null == System.getProperty(PUSH) || System.getProperty(PUSH).equalsIgnoreCase("true");
+        return System.getProperty(MODE).equalsIgnoreCase("push");
     }
 }

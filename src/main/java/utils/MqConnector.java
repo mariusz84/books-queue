@@ -8,7 +8,7 @@ import consumer.ActiveMqPullConsumer;
 import javax.jms.*;
 
 public class MqConnector extends ActiveMqPullConsumer {
-    private static final Logger log = LoggerFactory.getLogger(MqConnector.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(MqConnector.class);
     private static final String M2_BROKER = "localhost:61616";
     private static final String BOOKS_QUEUE = "booksQueue";
     private static Connection connection;
@@ -20,7 +20,7 @@ public class MqConnector extends ActiveMqPullConsumer {
         try {
             consumer = session.createConsumer(queue);
         } catch (JMSException e) {
-            log.info(e.getMessage());
+            LOGGER.info(e.getMessage());
         }
         return consumer;
     }
@@ -30,7 +30,7 @@ public class MqConnector extends ActiveMqPullConsumer {
         try {
             session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
         } catch (JMSException e) {
-            log.info(e.getMessage());
+            LOGGER.info(e.getMessage());
         }
         return session;
     }
@@ -40,7 +40,7 @@ public class MqConnector extends ActiveMqPullConsumer {
         try {
             queue = session.createQueue(BOOKS_QUEUE);
         } catch (JMSException e) {
-            log.info(e.getMessage());
+            LOGGER.info(e.getMessage());
         }
         return queue;
     }
@@ -50,7 +50,7 @@ public class MqConnector extends ActiveMqPullConsumer {
             session.close();
             connection.close();
         } catch (Exception e) {
-            log.info(e.getMessage());
+            LOGGER.info(e.getMessage());
         }
     }
 
@@ -62,7 +62,7 @@ public class MqConnector extends ActiveMqPullConsumer {
             connection = connectionFactory.createConnection();
             connection.start();
         } catch (Exception e) {
-            log.info(e.getMessage());
+            LOGGER.info(e.getMessage());
         }
     }
 }
