@@ -18,6 +18,7 @@ dependencies {
     compile group: 'javax.jms', name: 'javax.jms-api', version: '2.0.1'
     compile group: 'javassist', name: 'javassist', version: '3.12.1.GA'
     compile group: 'io.earcam.wrapped', name: 'com.sun.tools.attach', version: '1.8.0_jdk8u162-b12'
+    compile group: 'org.apache.kafka', name: 'kafka-streams', version: '2.2.0'
 }
 
 jar {
