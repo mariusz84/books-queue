@@ -13,26 +13,28 @@ import java.util.Locale;
 import java.util.Properties;
 
 public class KafkaStream {
+    private static final String STREAMS_INPUTS_TOPIC_NAME = "/streams-inputs1";
+    private static final String STREAMS_OUTPUTS_TOPIC_NAME = "/streams-outputs1";
+
     public static void main(final String[] args) throws Exception {
         Properties props = new Properties();
         props.put(StreamsConfig.APPLICATION_ID_CONFIG, "kafka-stream-application");
-        props.put(StreamsConfig.BOOTSTRAP_SERVERS_CONFIG, "kafka-broker1:9092");
+        props.put(StreamsConfig.BOOTSTRAP_SERVERS_CONFIG, "kafka-broker1:9095");
         props.put(StreamsConfig.DEFAULT_KEY_SERDE_CLASS_CONFIG, Serdes.String().getClass());
         props.put(StreamsConfig.DEFAULT_VALUE_SERDE_CLASS_CONFIG, Serdes.String().getClass());
 
         StreamsBuilder builder = new StreamsBuilder();
-        KStream<String, String> textLines = builder.stream("streams-input");
-//        KTable<String, Long> wordCounts =
+        KStream<String, String> textLines = builder.stream(STREAMS_INPUTS_TOPIC_NAME);
         textLines.flatMapValues(value -> Arrays.asList(value.toLowerCase(Locale.getDefault()).split("\\W+")))
                 .groupBy((key, value) -> value)
                 .count(Materialized.<String, Long, KeyValueStore<Bytes, byte[]>>as("counts"))
                 .toStream()
-                .to("streams-output", Produced.with(Serdes.String(), Serdes.Long()));
+                .to(STREAMS_OUTPUTS_TOPIC_NAME, Produced.with(Serdes.String(), Serdes.Long()));
 
         KafkaStreams streams = new KafkaStreams(builder.build(), props);
         streams.start();
 
-        Thread.sleep(30000);
+        Thread.sleep(300000);
         streams.close();
     }
 }
